@@ -1,31 +1,49 @@
-import React from 'react'
+import React, { FC } from 'react'
 import LoginCSS from './index.module.scss'
 import loginLogo from '../../assets/images/logo.png'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { useHistory } from 'react-router-dom'
-function Login() {
+import { useDispatch } from 'react-redux'
+import { setAuthArr } from '@/store/action'
+
+const Login: FC = () => {
   const Historyapi = useHistory()
+  const dispatch = useDispatch()
+
   const layout = {
     labelCol: { span: 4 },
-    wrapperCol: { span: 20 }
+    wrapperCol: { span: 20 },
   }
   const tailLayout = {
-    wrapperCol: { offset: 4, span: 20 }
+    wrapperCol: { offset: 4, span: 20 },
   }
-  const onFinish = (values) => {
+  const onFinish = (values: any) => {
+    
     console.log('Success:', values)
     sessionStorage.setItem('accountId', '1')
-    Historyapi.replace('/Dashboard')
+    dispatch(
+      setAuthArr([
+        '表格',
+        '学校管理',
+        '学校管理-学生管理',
+        '学校管理-学生管理-班级管理',
+        '学校管理-教师管理',
+        '学校管理-教师管理-授课管理',
+      ])
+    )
+
+    Historyapi.push('/Dashboard')
+    console.log('跳转')
   }
 
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo)
   }
   return (
     <div className={LoginCSS.loginWrapper}>
       <div className={LoginCSS.header}>
         <div className={LoginCSS.headerContent}>
-          <img className={LoginCSS.imgStyle} src={loginLogo} alt="" />
+          <img className={LoginCSS.imgStyle} src={loginLogo} alt='' />
           <span className={LoginCSS.text}>后台管理系统</span>
         </div>
       </div>
@@ -35,40 +53,35 @@ function Login() {
           <h2 className={LoginCSS.FormTxt}>用户登录</h2>
           <Form
             {...layout}
-            name="basic"
+            name='basic'
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
           >
             <Form.Item
-              label="用户名"
-              name="username"
+              label='用户名'
+              name='username'
               rules={[
-                { required: true, message: 'Please input your username!' }
+                { required: true, message: 'Please input your username!' },
               ]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label="密码"
-              name="password"
+              label='密码'
+              name='password'
               rules={[
-                { required: true, message: 'Please input your password!' }
+                { required: true, message: 'Please input your password!' },
               ]}
             >
               <Input.Password />
             </Form.Item>
 
-            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+            <Form.Item {...tailLayout} name='remember' valuePropName='checked'>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
-
-            <Form.Item {...tailLayout}>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
+            <Button htmlType='submit'>登录</Button>
           </Form>
         </div>
       </div>

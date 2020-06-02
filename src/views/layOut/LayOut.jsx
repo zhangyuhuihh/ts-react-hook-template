@@ -11,7 +11,9 @@ import MyBreadcrumb from './MyBreadcrumb'
 import TopRightDrop from './TopRightDrop'
 import { connect } from 'react-redux'
 import { addVisitiedViews } from '@/store/action'
+import ModuleScss from './index.module.scss'
 const { Header, Sider, Content } = Layout
+
 function findCurrentTagName(pathname) {
   let currentName = ''
   const itera = (list) => {
@@ -34,33 +36,36 @@ function findCurrentTagName(pathname) {
 }
 function LayoutManage(props) {
   const [collapsed, setCollapsed] = useState(false)
+
   const toggle = useCallback(() => {
     setCollapsed(!collapsed)
   }, [collapsed])
   const { pathname, state } = useLocation()
+
   useEffect(() => {
     const { addVisitiedViews } = props
     const tagName = findCurrentTagName(pathname)
     addVisitiedViews({
       routeName: tagName,
       path: pathname,
-      state: state
+      state: state,
     })
   }, [props, pathname, state])
+
   return (
     <div style={{ height: '100%' }}>
-      <Layout style={{ height: '100%' }}>
+      <Layout className={ModuleScss.wrapperContainer}>
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo" />
+          <div className='logo' />
           <MenuComponent RouteConfig={RouteConfig} />
         </Sider>
-        <Layout className="site-layout">
-          <Header className="site-layout-background">
+        <Layout className='site-layout'>
+          <Header className='site-layout-background'>
             {React.createElement(
               collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
               {
                 className: 'trigger',
-                onClick: toggle
+                onClick: toggle,
               }
             )}
             <MyBreadcrumb />
@@ -70,11 +75,11 @@ function LayoutManage(props) {
           </Header>
           <TagsView />
           <Content
-            className="site-layout-background"
+            className='site-layout-background'
             style={{
               margin: '24px 16px',
               padding: 24,
-              minHeight: 280
+              minHeight: 280,
             }}
           >
             <AppMain />
@@ -85,6 +90,6 @@ function LayoutManage(props) {
   )
 }
 const mapDispatchToProps = {
-  addVisitiedViews
+  addVisitiedViews,
 }
 export default withRouter(connect(null, mapDispatchToProps)(LayoutManage))

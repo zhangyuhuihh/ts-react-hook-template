@@ -10,20 +10,20 @@ import { lazy } from 'react'
  * children: 大菜单，子路由
  * hidden: 是否隐藏(true隐藏，默认打开)
  */
-export const RouteConfig = [
+export const RouteConfig: any = [
   {
     name: '首页',
     path: '/Dashboard',
     component: lazy(() => import('../views/test/Dashboard')),
     role: '首页权限',
-    icon: 'home'
+    icon: 'home',
   },
   {
     name: '表格',
     path: '/table',
     component: lazy(() => import('../views/test/tables')),
     role: '表格',
-    icon: 'table'
+    icon: 'table',
   },
   {
     name: '学校管理',
@@ -44,9 +44,9 @@ export const RouteConfig = [
             path: '/messageManage/test11/test111',
             component: lazy(() => import('../views/messageManage/infopartOne')),
             role: '学校管理-学生管理-班级管理',
-            icon: ''
-          }
-        ]
+            icon: '',
+          },
+        ],
       },
       {
         name: '教师管理',
@@ -60,10 +60,10 @@ export const RouteConfig = [
             role: '学校管理-教师管理-授课管理',
             path: '/messageManage/test22/test222',
             component: lazy(() => import('../views/messageManage/infopartTwo')),
-            icon: ''
-          }
-        ]
-      }
-    ]
-  }
+            icon: '',
+          },
+        ],
+      },
+    ],
+  },
 ]

@@ -8,16 +8,18 @@ import _ from 'lodash'
 import { UserOutlined } from '@ant-design/icons'
 const { SubMenu } = Menu
 function MenuComponent(props) {
-  console.log('render')
+  
   const { RouteConfig } = props
   const authArr = useSelector((state) => state.auth, shallowEqual)
   const openKeys = useSelector((state) => state.Menu, shallowEqual)
   const dispatch = useDispatch()
   const { pathname } = useLocation()
   const [ownDefaultSelectedKeys, setOwnDefaultSelectedKeys] = useState([])
+  
   useEffect(() => {
     setOwnDefaultSelectedKeys(pathname)
   }, [pathname])
+
   const handleSelect = useCallback(
     ({ item, key, keyPath, selectedKeys, domEvent }) => {
       const openKeys = item.props.openKeys
@@ -25,6 +27,7 @@ function MenuComponent(props) {
     },
     [dispatch]
   )
+  
   const handleOpenChange = useCallback(
     (openKeys) => {
       dispatch(setOpenkeys(openKeys))
@@ -67,6 +70,7 @@ function MenuComponent(props) {
     },
     [authArr]
   )
+  
   return (
     <div className={Modulecss.menuWrapper}>
       <div className={Modulecss.IconWrapper}>

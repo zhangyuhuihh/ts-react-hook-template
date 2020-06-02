@@ -16,7 +16,7 @@ const HomePage: FC = () => {
         <Route
           path='/'
           render={() => {
-            return sessionStorage.getItem('account') ? (
+            return sessionStorage.getItem('accountId') ? (
               <MyLayOut />
             ) : (
               <Redirect to='/login' />

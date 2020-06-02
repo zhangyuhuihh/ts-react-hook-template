@@ -3,8 +3,9 @@ import { RouteConfig } from '@/route'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moduleCss from './tagsView.module.scss'
-import { removeVisitiedViews } from '@/store/action'
+import { addVisitiedViews, removeVisitiedViews } from '@/store/action'
 import { CloseOutlined } from '@ant-design/icons'
+
 class TagsView extends React.Component {
   constructor(props) {
     super(props)
@@ -21,18 +22,33 @@ class TagsView extends React.Component {
   }
 
   componentDidUpdate(preProps) {
-    if (
-      preProps.history.location.pathname !==
-      this.props.history.location.pathname
-    ) {
+    this.initTags()
+    setTimeout(() => {
+      // 在更新完dom之后再进行滚动操作 todo 是否可以放进setstate中利用setstate的“异步”特性
       this.setTagToRightPos()
+    })
+  }
+
+  initTags = () => {
+    // todo 这里的异步方案到底咋办
+    const { addVisitiedViews } = this.props
+    const { pathname, state } = this.props.history.location
+    const tagName = this.findCurrentTagName(pathname)
+    if (tagName) {
+      addVisitiedViews({
+        routeName: tagName,
+        path: pathname,
+        state: state,
+      })
     }
   }
 
   setTagToRightPos = () => {
     const { pathname } = this.props.history.location
     const tagName = this.findCurrentTagName(pathname)
-    this.moveToTarget(tagName)
+    if (tagName) {
+      this.moveToTarget(tagName)
+    }
   }
 
   findCurrentTagName(pathname) {
@@ -61,9 +77,9 @@ class TagsView extends React.Component {
   }
 
   handleRemoveTag = (e, item) => {
-    const { pathname } = this.props.history.location
     e.stopPropagation()
     const { removeVisitiedViews, visitiedViews } = this.props
+    const { pathname } = this.props.history.location
     removeVisitiedViews(item)
     if (visitiedViews.length === 2) {
       this.props.history.push('/Dashboard')
@@ -74,12 +90,12 @@ class TagsView extends React.Component {
         if (i === visitiedViews.length - 1) {
           this.props.history.push({
             pathname: visitiedViews[i - 1].path,
-            state: visitiedViews[i - 1].state
+            state: visitiedViews[i - 1].state,
           })
         } else {
           this.props.history.push({
             pathname: visitiedViews[i + 1].path,
-            state: visitiedViews[i + 1].state
+            state: visitiedViews[i + 1].state,
           })
         }
       }
@@ -178,12 +194,13 @@ class TagsView extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    visitiedViews: state.visitiedViews
+    visitiedViews: state.visitiedViews,
   }
 }
 
 const mapDispatchToProps = {
-  removeVisitiedViews
+  addVisitiedViews,
+  removeVisitiedViews,
 }
 
 export default withRouter(

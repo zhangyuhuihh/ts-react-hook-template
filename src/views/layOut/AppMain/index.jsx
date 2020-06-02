@@ -1,8 +1,10 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, memo } from 'react'
 import { Spin } from 'antd'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { RouteConfig } from '@/route'
 import _ from 'lodash'
+import NoMatch from '@/components/NoMatch'
+
 function AppMain() {
   const renderRoute = (routeList) => {
     let arr = []
@@ -24,7 +26,7 @@ function AppMain() {
       })
     }
     itera(routeList)
-    console.log(arr)
+
     return arr
   }
   const rendereDirect = (routeList) => {
@@ -52,10 +54,12 @@ function AppMain() {
   return (
     <Suspense fallback={<Spin delay={400} />}>
       <Switch>
+        <Redirect exact from='/' to='/Dashboard' />
         {rendereDirect(RouteConfig)}
         {renderRoute(RouteConfig)}
+        <Route component={NoMatch}></Route>
       </Switch>
     </Suspense>
   )
 }
-export default AppMain
+export default memo(AppMain)

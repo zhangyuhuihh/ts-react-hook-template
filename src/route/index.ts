@@ -1,4 +1,6 @@
 import { lazy } from 'react'
+import { RouteCellObj } from '@/assets/interfaces/index'
+
 /**
  * 菜单路由
  * name: 路由对应的名称
@@ -10,7 +12,7 @@ import { lazy } from 'react'
  * children: 大菜单，子路由
  * hidden: 是否隐藏(true隐藏，默认打开)
  */
-export const RouteConfig: any = [
+export const RouteConfig: Array<RouteCellObj> = [
   {
     name: '首页',
     path: '/Dashboard',

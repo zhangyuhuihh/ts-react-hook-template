@@ -1,9 +1,20 @@
 import { combineReducers } from 'redux'
 import _ from 'lodash'
+import {
+  setOpenkeysAction,
+  updataOpenKeysAction,
+  setauthArrAction,
+  addVisitiedViewsAction,
+  removeVisitiedViewsAction,
+  clearVisitiedViewsAction,
+} from './action'
 
 const routeWhiteList = ['首页权限']
 
-const MenuReducer = (state = [], action) => {
+const MenuReducer = (
+  state: string[] = [],
+  action: setOpenkeysAction | updataOpenKeysAction
+) => {
   switch (action.type) {
     case 'SET_OPENKEYS':
       return action.openKeys
@@ -13,7 +24,8 @@ const MenuReducer = (state = [], action) => {
       return state
   }
 }
-const authReducer = (state = [], action) => {
+
+const authReducer = (state: string[] = [], action: setauthArrAction) => {
   switch (action.type) {
     case 'SET_AUTHARR':
       return routeWhiteList.concat(action.authArr)
@@ -21,21 +33,30 @@ const authReducer = (state = [], action) => {
       return state
   }
 }
+
 const initialstate = [
   {
     routeName: '首页',
-    path: '/Dashboard'
-  }
+    path: '/Dashboard',
+  },
 ]
-const visitedViewsReducer = (state = initialstate, action) => {
-  switch (action.type) {
+
+interface visitedViewsObj {
+  routeName: string
+  path: string
+}
+
+const visitedViewsReducer = (
+  state: visitedViewsObj[] = initialstate,
+  action: addVisitiedViewsAction | removeVisitiedViewsAction | clearVisitiedViewsAction
+) => {
+  switch (action.type) {  
     case 'ADD_VISITIEDVIEWS':
       const isHave = state.find((v) => v.path === action.visitedObj.path)
       if (isHave === undefined) {
-        console.log('state: ', state);
         return state.concat(action.visitedObj)
       } else {
-        isHave.state = action.visitedObj.state
+        (isHave as any).state = action.visitedObj.state
         return state
       }
     case 'REMOVE_VISITIEDVIEWS':
@@ -46,9 +67,10 @@ const visitedViewsReducer = (state = initialstate, action) => {
       return state
   }
 }
+
 const allReducers = combineReducers({
   Menu: MenuReducer,
   auth: authReducer,
-  visitiedViews: visitedViewsReducer
+  visitiedViews: visitedViewsReducer,
 })
 export default allReducers

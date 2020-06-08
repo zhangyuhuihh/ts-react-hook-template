@@ -1,17 +1,18 @@
 import { Breadcrumb } from 'antd'
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { RouteConfig } from '@/route'
-import React, { memo } from 'react'
+import React from 'react'
+import { useLocation, withRouter } from 'react-router-dom'
 
-const produceBreadcrumbItem = (path) => {
-  let activeBreadName = ''
-  const itera = (routeList) => {
+const produceBreadcrumbItem = (path: string): string => {
+  let activeBreadName: string = ''
+  const itera = (routeList: RouteCellObj[]) => {
     for (let i = 0; i < routeList.length; i++) {
       if (routeList[i].path === path) {
         activeBreadName = routeList[i].name
       } else {
         if (routeList[i].hasOwnProperty('children')) {
-          itera(routeList[i].children)
+          itera(routeList[i].children as any)
         }
       }
     }
@@ -20,9 +21,9 @@ const produceBreadcrumbItem = (path) => {
   return activeBreadName
 }
 
-const MemoMyBreadcrumb = memo(function MyBreadcrumb(props) {
-  const { location } = props
-  const pathSnippets = location.pathname.split('/').filter((i) => i)
+const MyBreadcrumb = () => {
+  const { pathname } = useLocation()
+  const pathSnippets = pathname.split('/').filter((i) => i)
 
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const path = `/${pathSnippets.slice(0, index + 1).join('/')}`
@@ -35,16 +36,18 @@ const MemoMyBreadcrumb = memo(function MyBreadcrumb(props) {
       </Breadcrumb.Item>
     )
   })
+
   return (
     <div style={{ display: 'inline-block', paddingLeft: '20px' }}>
       <Breadcrumb>
         {[
-          <Breadcrumb.Item key="Dashboard">
-            <Link to="/Dashboard">首页</Link>
-          </Breadcrumb.Item>
-        ].concat(extraBreadcrumbItems)}
+          <Breadcrumb.Item key='Dashboard'>
+            <Link to='/Dashboard'>首页</Link>
+          </Breadcrumb.Item>,
+        ].concat(extraBreadcrumbItems as any)} 
+        {/* 蠢成shi，撒币 */}
       </Breadcrumb>
     </div>
   )
-})
-export default withRouter(MemoMyBreadcrumb)
+}
+export default withRouter(MyBreadcrumb)

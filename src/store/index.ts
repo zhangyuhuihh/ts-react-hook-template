@@ -10,7 +10,7 @@ import reducers from './reducer'
 //   blacklist: [] // reducer 里不持久化的数据
 // }
 const composeEnhancers =
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 // const myPersistReducer = persistReducer(persistConfig, reducers)
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)))
 export default store

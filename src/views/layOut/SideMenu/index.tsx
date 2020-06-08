@@ -8,7 +8,6 @@ import _ from 'lodash'
 import { UserOutlined } from '@ant-design/icons'
 import { RouteConfig } from '@/route'
 import './antd.scss'
-import { RouteCellObj } from '@/assets/interfaces/index'
 
 const { SubMenu } = Menu
 

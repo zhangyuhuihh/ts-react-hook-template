@@ -11,27 +11,27 @@ import ModuleScss from './index.module.scss'
 const { Header, Sider, Content } = Layout
 
 function LayoutManage() {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState<boolean>(false)
   return (
     <div>
       <Layout className={ModuleScss.wrapperContainer}>
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className={ModuleScss.IconWrapper}>
             <img
-              src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
-              alt=""
+              src='https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'
+              alt=''
             />
             <h1>雪茄学院平台</h1>
           </div>
           <MenuComponent />
         </Sider>
-        <Layout className="site-layout">
-          <Header className="site-layout-background">
+        <Layout className='site-layout'>
+          <Header className='site-layout-background'>
             {React.createElement(
               collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
               {
                 className: 'trigger',
-                onClick: () => setCollapsed(!collapsed)
+                onClick: () => setCollapsed(!collapsed),
               }
             )}
             <MyBreadcrumb />
@@ -41,11 +41,11 @@ function LayoutManage() {
           </Header>
           <TagsView />
           <Content
-            className="site-layout-background"
+            className='site-layout-background'
             style={{
               margin: '24px 16px',
               padding: 24,
-              minHeight: 280
+              minHeight: 280,
             }}
           >
             <AppMain />

@@ -1,6 +1,4 @@
 import { lazy } from 'react'
-import { RouteCellObj } from '@/assets/interfaces/index'
-
 /**
  * 菜单路由
  * name: 路由对应的名称

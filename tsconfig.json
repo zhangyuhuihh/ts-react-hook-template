@@ -20,7 +20,8 @@
     "jsx": "react"
   },
   "include": [
-    "src"
+    "src",
+    "./declaration.d.ts"
   ],
   "extends": "./paths.json"
 }

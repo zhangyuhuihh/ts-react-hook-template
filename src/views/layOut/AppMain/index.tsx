@@ -6,12 +6,12 @@ import _ from 'lodash'
 import NoMatch from '@/components/NoMatch'
 
 function AppMain() {
-  const renderRoute = (routeList) => {
-    let arr = []
-    const itera = (routeList) => {
+  const renderRoute = (routeList: RouteCellObj[]) => {
+    let arr: JSX.Element[] = [] // todo 这里的类型并不准确
+    const itera = (routeList: RouteCellObj[]) => {
       routeList.forEach((item) => {
         if (!_.isEmpty(item.children)) {
-          itera(item.children)
+          itera(item.children as any)
         } else {
           arr.push(
             <Route
@@ -26,13 +26,12 @@ function AppMain() {
       })
     }
     itera(routeList)
-
     return arr
   }
-  const rendereDirect = (routeList) => {
+  const rendereDirect = (routeList: RouteCellObj[]) => {
     const newList = routeList.filter((v) => v.redirect)
-    let arr = []
-    const itera = (List) => {
+    let arr: JSX.Element[] = []
+    const itera = (List: RouteCellObj[]) => {
       List.forEach((item) => {
         if (item.redirect) {
           arr.push(
@@ -47,10 +46,10 @@ function AppMain() {
         item.children && itera(item.children)
       })
     }
-
     itera(newList)
     return arr
   }
+  
   return (
     <Suspense fallback={<Spin delay={400} />}>
       <Switch>

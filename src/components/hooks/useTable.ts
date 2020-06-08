@@ -3,7 +3,26 @@ import { useReducer, useEffect } from 'react'
 const DATA_CHANGE = 'DATA_CHANGE'
 const STATE_CHANGE = 'STATE_CHANGE'
 let id = 0
-const DEFAULT_STATE = {
+
+interface TableStates {
+  loading: boolean
+  current: number
+  pageSize: number
+  total: number
+  order: boolean
+  field: string
+  listData: any[]
+  bodyParams: any
+  queryParams: any
+  refreshKey: number
+}
+
+interface actions {
+  type: string
+  data: any
+}
+
+const DEFAULT_STATE: TableStates = {
   loading: false,
   current: 1,
   pageSize: 10,
@@ -13,13 +32,14 @@ const DEFAULT_STATE = {
   listData: [],
   bodyParams: {},
   queryParams: {},
-  refreshKey: id
+  refreshKey: id,
 }
+
 // 用作 useReducer 中的 reducer
-const reducer = (state, action) => {
+const reducer = (state: any, action: actions) => {
   const {
     type,
-    data: { listData, ...nextState }
+    data: { listData, ...nextState },
   } = action
   switch (type) {
     case STATE_CHANGE:
@@ -31,7 +51,7 @@ const reducer = (state, action) => {
   }
 }
 
-function UseTable(api, initState = {}) {
+function UseTable(api: Function, initState = {}) {
   /**
    * useReducer 的概念和 redux 很像
    * 会返回一个 dispatch 函数，调用的时候传给它一个 action
@@ -48,12 +68,12 @@ function UseTable(api, initState = {}) {
       listData, // 数据
       bodyParams, // 额外搜索项(body形式)
       queryParams,
-      refreshKey // 强制刷新项
+      refreshKey, // 强制刷新项
     },
-    dispatch
+    dispatch,
   ] = useReducer(reducer, {
     ...DEFAULT_STATE,
-    ...initState
+    ...initState,
   })
 
   // 获取数据的 hooks
@@ -61,7 +81,7 @@ function UseTable(api, initState = {}) {
     let cancel = false
     dispatch({ type: STATE_CHANGE, data: { loading: true } })
     api({ page: current, pageSize, ...queryParams }, { ...bodyParams })
-      .then((data) => {
+      .then((data: any) => {
         const _data = data.data
         if (_data) {
           !cancel &&
@@ -69,21 +89,35 @@ function UseTable(api, initState = {}) {
               type: DATA_CHANGE,
               data: {
                 listData: _data.rows,
-                total: _data.total
-              }
+                total: _data.total,
+              },
             })
         }
       })
       .finally(() => dispatch({ type: STATE_CHANGE, data: { loading: false } }))
     // 返回值时页面卸载之后调用的函数
-    return () => (cancel = true)
-  }, [api, current, pageSize, order, field, bodyParams, queryParams, refreshKey]) // 当这几个状态改变时自动调用函数
+    return () => {
+      cancel = true
+    }
+  }, [
+    api,
+    current,
+    pageSize,
+    order,
+    field,
+    bodyParams,
+    queryParams,
+    refreshKey,
+  ]) // 当这几个状态改变时自动调用函数
 
   // 搜索事件
-  function onSearch({ bodyParams, queryParams }) {
+  function onSearch({ bodyParams, queryParams }: any) {
     // 点击搜索按钮 跳到第一页
     !loading &&
-      dispatch({ type: STATE_CHANGE, data: { bodyParams, queryParams, current: 1 } })
+      dispatch({
+        type: STATE_CHANGE,
+        data: { bodyParams, queryParams, current: 1 },
+      })
   }
   // 刷新事件
   function refreshTable() {
@@ -92,14 +126,14 @@ function UseTable(api, initState = {}) {
 
   // 变更事件
   function onChange(
-    { current, pageSize },
-    filters,
+    { current, pageSize }: any,
+    filters: any,
     { order = false, field = '' }
   ) {
     !loading &&
       dispatch({
         type: STATE_CHANGE,
-        data: { current, pageSize, order, field }
+        data: { current, pageSize, order, field },
       })
   }
 
@@ -112,8 +146,8 @@ function UseTable(api, initState = {}) {
     {
       onSearch,
       onChange,
-      refreshTable
-    }
+      refreshTable,
+    },
   ]
 }
 

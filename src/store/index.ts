@@ -9,6 +9,8 @@ import reducers from './reducer'
 //   storage: storageSession,
 //   blacklist: [] // reducer 里不持久化的数据
 // }
+
+
 const composeEnhancers =
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 // const myPersistReducer = persistReducer(persistConfig, reducers)

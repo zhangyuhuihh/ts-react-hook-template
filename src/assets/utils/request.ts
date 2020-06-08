@@ -1,24 +1,23 @@
-import axios from 'axios'
-// import store from '@/store'
+import axios, { AxiosRequestConfig } from 'axios'
 import { message } from 'antd'
 import _ from 'lodash'
 import getHeaders from './distinguishHeader'
 
-const request = (config = {}) => {
+const request = (config: AxiosRequestConfig = {}) => {
   const { url } = config
   const omitConfig = _.omit(config, ['url'])
 
   const _baseURL = '/test'
 
-  const _config = {
+  const _config: AxiosRequestConfig = {
     url: _baseURL + url,
     timeout: 5000,
     method: 'get',
     headers: getHeaders(),
-    ...omitConfig
+    ...omitConfig,
   }
 
-  const promise = axios(_config).then(result => {
+  const promise = axios(_config).then((result) => {
     const body = result.data
     switch (body.code) {
       case '00000':

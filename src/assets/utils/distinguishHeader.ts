@@ -1,8 +1,4 @@
-interface apiHeaders {
-  token: string
-}
-
-const getHeaders = (): apiHeaders => {
+const getHeaders = () => {
   const env = process.env.NODE_ENV
   if (env === 'production') {
     return {

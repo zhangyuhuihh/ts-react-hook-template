@@ -3,27 +3,72 @@ import { Button, Table, Modal, message } from 'antd'
 import { useFormTable } from '@umijs/hooks'
 import MainForm from './MainForm'
 import useModal from '@/components/hooks/useModal'
+import { PaginatedParams } from '@umijs/hooks/lib/useFormTable'
 import SearchBar from './SearchBar'
-import {
-  getProductCategorys as apiTableData,
-  insertProductCategory as apiAddData,
-  updateProductCategoryById as apiUpdateData,
-  deleteCategoryById as apiDeleteData,
-} from '@/assets/api/cigarproductinfo/cigarvariety.js'
+import { AxiosPromise } from 'axios'
+import request from '@/assets/utils/request.ts'
+// import {
+//   getProductCategorys as apiTableData,
+//   insertProductCategory as apiAddData,
+//   updateProductCategoryById as apiUpdateData,
+//   deleteCategoryById as apiDeleteData,
+// } from '@/assets/api/cigarproductinfo/cigarvariety.js'
+
+const apiTableData = (params: BodyParam): AxiosPromise<any> => {
+  return request({
+    data: { keywords: params.keywords },
+  })
+}
+const apiAddData = (params: BodyParam): AxiosPromise<any> => {
+  return request({
+    data: { keywords: params.keywords },
+  })
+}
+const apiUpdateData = (params: BodyParam): AxiosPromise<any> => {
+  return request({
+    data: { keywords: params.keywords },
+  })
+}
+const apiDeleteData = (params): AxiosPromise<any> => {
+  return request({ params })
+}
+
+interface BodyParam {
+  keywords: string
+}
+
+interface Item {
+  name: {
+    last: string
+  }
+  email: string
+  phone: string
+  gender: 'male' | 'female'
+}
+
+interface Result {
+  total: number
+  list: Item[]
+}
+// @ts-igore
 
 const MAINROWKEY = 'categoryId'
 
 const { confirm } = Modal
 
-const getTableData = ({ current, pageSize }, formData) => {
+const getTableData = (
+  { current, pageSize }: PaginatedParams[0],
+  formData: any
+): Promise<any> => {
+  const { keywords } = formData
   return apiTableData({
-    keywords: formData.keywords,
+    keywords: keywords,
     // page: current,
     // pageSize,
-  }).then((res) => ({
-    list: res.data,
+  }).then((res: any) => ({
+    list: res.list,
     // list: res.data.rows,
-    // total: res.data.total,
+    total: res.total,
   }))
 }
 
@@ -35,7 +80,7 @@ function MainComp() {
     getTableData,
     {
       defaultPageSize: 10,
-      form: searchFormRef.current && searchFormRef.current.form,
+      form: (searchFormRef.current as any).form,
       loadingDelay: 200,
     }
   )
@@ -50,7 +95,7 @@ function MainComp() {
 
   const { submit } = search
 
-  const columns = [
+  const columns: any = [
     {
       title: '资料名称',
       dataIndex: 'category',
@@ -73,12 +118,13 @@ function MainComp() {
           <div>
             <Button
               onClick={() => handleEdit(record)}
-              type="primary"
+              type='primary'
               style={{ marginRight: '10px' }}
             >
               编辑
             </Button>
-            <Button onClick={() => handleDelete(record)} type="danger">
+            {/* @ts-ignore */}
+            <Button onClick={() => handleDelete(record)} type='danger'>
               删除
             </Button>
           </div>
@@ -88,13 +134,13 @@ function MainComp() {
   ]
 
   const handleAdd = () => {
-    setModalTitleName('新增')
-    setModalVisible(true)
+    setModalTitleName!('新增')
+    setModalVisible!(true)
   }
 
   const handleEdit = (record) => {
-    setModalVisible(true)
-    setModalTitleName('编辑')
+    setModalVisible!(true)
+    setModalTitleName!('编辑')
     setinitFormValues({ ...record })
     setcurrentFormKey(record[MAINROWKEY])
   }
@@ -135,7 +181,7 @@ function MainComp() {
     apiAddData(bodyParams)
       .then((res) => {
         message.success('新增成功')
-        setModalVisible(false)
+        setModalVisible!(false)
         refreshTable()
       })
       .catch((error) => {
@@ -150,7 +196,7 @@ function MainComp() {
     })
       .then((res) => {
         message.success('编辑成功')
-        setModalVisible(false)
+        setModalVisible!(false)
         refreshTable()
       })
       .catch((error) => {
@@ -172,6 +218,7 @@ function MainComp() {
   // const handletoBothDeleteService = () => {}
 
   const doSubmit = () => {
+    // @ts-ignore
     const formToValidate = mainFormRef.current.form
     formToValidate
       .validateFields()
@@ -197,7 +244,7 @@ function MainComp() {
   }
 
   const resetForm = () => {
-    setcurrentFormKey(new Date().getTime())
+    setcurrentFormKey(String(new Date().getTime()))
     setinitFormValues({})
   }
 
@@ -210,7 +257,7 @@ function MainComp() {
         visible={modalvisible}
         onOk={doSubmit}
         onCancel={() => {
-          setModalVisible(false)
+          setModalVisible!(false)
           resetForm()
         }}
       >
@@ -235,7 +282,7 @@ function MainComp() {
         <div>
           <Button
             onClick={handleAdd}
-            type="primary"
+            type='primary'
             style={{ marginRight: '20px' }}
           >
             新增
@@ -245,7 +292,7 @@ function MainComp() {
           </Button> */}
         </div>
         <div>
-          <SearchBar ref={searchFormRef} submit={submit}></SearchBar>
+          <SearchBar ref={searchFormRef} searchSubmit={submit}></SearchBar>
         </div>
       </div>
     )

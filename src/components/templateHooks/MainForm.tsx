@@ -9,7 +9,11 @@ const layout = {
 //   wrapperCol: { offset: 4, span: 20 },
 // }
 
-const addEditForm = forwardRef((props, ref) => {
+interface Pps {
+  initValues: any
+}
+
+const addEditForm = forwardRef((props: Pps, ref) => {
   const [form] = Form.useForm()
   const { initValues } = props
 
@@ -21,24 +25,24 @@ const addEditForm = forwardRef((props, ref) => {
     <Form
       form={form}
       {...layout}
-      name="basic"
+      name='basic'
       initialValues={{ ...initValues }}
       scrollToFirstError={true}
     >
       <Form.Item
-        label="种类名称"
-        name="category"
+        label='种类名称'
+        name='category'
         rules={[{ required: true, message: '请输入种类名称' }]}
-        initialvalue={initValues.category}
+        initialValue={initValues.category}
       >
-        <Input placeholder={'请输入种类名称'} className="i_w" />
+        <Input placeholder={'请输入种类名称'} className='i_w' />
       </Form.Item>
       <Form.Item
-        label="备注"
-        name="remark"
-        initialvalue={initValues.remark || ''}
+        label='备注'
+        name='remark'
+        initialValue={initValues.remark || ''}
       >
-        <Input.TextArea placeholder={'请输入备注'} className="i_w" />
+        <Input.TextArea placeholder={'请输入备注'} className='i_w' />
       </Form.Item>
     </Form>
   )

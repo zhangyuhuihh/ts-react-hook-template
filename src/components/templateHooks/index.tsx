@@ -170,7 +170,7 @@ function MainComp() {
       })
   }
 
-  const handletoDeleteService = (idArr) => {
+  const handletoDeleteService = (idArr: string[]) => {
     apiDeleteData({ [MAINROWKEY]: idArr[0] })
       .then((res) => {
         message.success('删除成功')

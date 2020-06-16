@@ -44,6 +44,7 @@ const initialstate = [
 interface visitedViewsObj {
   routeName: string
   path: string
+  state?: any
 }
 
 const visitedViewsReducer = (
@@ -56,7 +57,7 @@ const visitedViewsReducer = (
       if (isHave === undefined) {
         return state.concat(action.visitedObj)
       } else {
-        (isHave as any).state = action.visitedObj.state
+        isHave.state = action.visitedObj.state
         return state
       }
     case 'REMOVE_VISITIEDVIEWS':

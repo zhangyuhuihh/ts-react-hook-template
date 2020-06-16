@@ -5,9 +5,6 @@ const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 },
 }
-// const tailLayout = {
-//   wrapperCol: { offset: 4, span: 20 },
-// }
 
 interface Pps {
   initValues: any
@@ -26,7 +23,6 @@ const addEditForm = forwardRef((props: Pps, ref) => {
       form={form}
       {...layout}
       name='basic'
-      initialValues={{ ...initValues }}
       scrollToFirstError={true}
     >
       <Form.Item

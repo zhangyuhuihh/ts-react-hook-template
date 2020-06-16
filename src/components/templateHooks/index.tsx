@@ -5,52 +5,18 @@ import MainForm from './MainForm'
 import useModal from '@/components/hooks/useModal'
 import { PaginatedParams } from '@umijs/hooks/lib/useFormTable'
 import SearchBar from './SearchBar'
-import { AxiosPromise } from 'axios'
-import request from '@/assets/utils/request.ts'
-// import {
-//   getProductCategorys as apiTableData,
-//   insertProductCategory as apiAddData,
-//   updateProductCategoryById as apiUpdateData,
-//   deleteCategoryById as apiDeleteData,
-// } from '@/assets/api/cigarproductinfo/cigarvariety.js'
-
-const apiTableData = (params: BodyParam): AxiosPromise<any> => {
-  return request({
-    data: { keywords: params.keywords },
-  })
-}
-const apiAddData = (params: BodyParam): AxiosPromise<any> => {
-  return request({
-    data: { keywords: params.keywords },
-  })
-}
-const apiUpdateData = (params: BodyParam): AxiosPromise<any> => {
-  return request({
-    data: { keywords: params.keywords },
-  })
-}
-const apiDeleteData = (params): AxiosPromise<any> => {
-  return request({ params })
-}
+// import { AxiosPromise } from 'axios'
+// import request from '@/assets/utils/request.ts'
+import {
+  getProductCategorys as apiTableData,
+  insertProductCategory as apiAddData,
+  updateProductCategoryById as apiUpdateData,
+  deleteCategoryById as apiDeleteData,
+} from '@/assets/api/cigarproductinfo/cigarvariety.js'
 
 interface BodyParam {
   keywords: string
 }
-
-interface Item {
-  name: {
-    last: string
-  }
-  email: string
-  phone: string
-  gender: 'male' | 'female'
-}
-
-interface Result {
-  total: number
-  list: Item[]
-}
-// @ts-igore
 
 const MAINROWKEY = 'categoryId'
 
@@ -66,9 +32,9 @@ const getTableData = (
     // page: current,
     // pageSize,
   }).then((res: any) => ({
-    list: res.list,
+    list: res.data,
     // list: res.data.rows,
-    total: res.total,
+    // total: res.data.total,
   }))
 }
 
@@ -80,7 +46,8 @@ function MainComp() {
     getTableData,
     {
       defaultPageSize: 10,
-      form: (searchFormRef.current as any).form,
+      // @ts-ignore
+      form: searchFormRef.current && searchFormRef.current.form,
       loadingDelay: 200,
     }
   )
@@ -123,8 +90,7 @@ function MainComp() {
             >
               编辑
             </Button>
-            {/* @ts-ignore */}
-            <Button onClick={() => handleDelete(record)} type='danger'>
+            <Button onClick={() => handleDelete(record)} danger>
               删除
             </Button>
           </div>
@@ -287,7 +253,7 @@ function MainComp() {
           >
             新增
           </Button>
-          {/* <Button onClick={handleBothDelete} type="danger">
+          {/* <Button onClick={handleBothDelete} danger>
             批量删除
           </Button> */}
         </div>

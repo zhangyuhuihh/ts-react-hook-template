@@ -7,7 +7,7 @@ const request = (config: AxiosRequestConfig = {}) => {
   const { url } = config
   const omitConfig = _.omit(config, ['url'])
 
-  const _baseURL = '/test'
+  const _baseURL = '/cigar/web'
 
   const _config: AxiosRequestConfig = {
     url: _baseURL + url,

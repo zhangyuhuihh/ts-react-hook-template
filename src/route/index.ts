@@ -26,6 +26,13 @@ export const RouteConfig: Array<RouteCellObj> = [
     icon: 'table',
   },
   {
+    name: '模板',
+    path: '/templatehook',
+    component: lazy(() => import('../components/templateHooks/index')),
+    role: '表格',
+    icon: 'table',
+  },
+  {
     name: '学校管理',
     path: '/messageManage',
     role: '学校管理',

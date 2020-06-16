@@ -5,18 +5,12 @@ import MainForm from './MainForm'
 import useModal from '@/components/hooks/useModal'
 import { PaginatedParams } from '@umijs/hooks/lib/useFormTable'
 import SearchBar from './SearchBar'
-// import { AxiosPromise } from 'axios'
-// import request from '@/assets/utils/request.ts'
 import {
   getProductCategorys as apiTableData,
   insertProductCategory as apiAddData,
   updateProductCategoryById as apiUpdateData,
   deleteCategoryById as apiDeleteData,
 } from '@/assets/api/cigarproductinfo/cigarvariety.js'
-
-interface BodyParam {
-  keywords: string
-}
 
 const MAINROWKEY = 'categoryId'
 

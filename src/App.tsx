@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { setAuthArr } from '@/store/action'
 
 const App: FC = () => {
+  console.log('dev')
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(

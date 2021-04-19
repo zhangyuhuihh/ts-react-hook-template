@@ -7,7 +7,7 @@
  */
 import React, { useState, createRef } from 'react'
 import { Button, Form, Input, Table, Select, Modal } from 'antd'
-import { useFormTable } from '@umijs/hooks'
+import { useAntdTable } from 'ahooks'
 import MainForm from './MainForm'
 import useModal from '@/components/hooks/useModal'
 const { confirm } = Modal
@@ -24,39 +24,39 @@ const getTableData = ({ current, pageSize }, formData) => {
     .then((res) => res.json())
     .then((res) => ({
       total: res.info.results,
-      list: res.results
+      list: res.results,
     }))
 }
 
 function Nav1(props) {
   const [form] = Form.useForm()
 
-  const { tableProps, search } = useFormTable(getTableData, {
+  const { tableProps, search } = useAntdTable(getTableData, {
     defaultPageSize: 5,
-    form
+    form,
   })
   const [
     { modalTitleName, modalvisible },
-    { setModalTitleName, setModalVisible }
+    { setModalTitleName, setModalVisible },
   ] = useModal()
   const { submit } = search
   const [initFormValues, setinitFormValues] = useState({})
   const columns = [
     {
       title: 'name',
-      dataIndex: 'name.last'
+      dataIndex: 'name.last',
     },
     {
       title: 'email',
-      dataIndex: 'email'
+      dataIndex: 'email',
     },
     {
       title: 'phone',
-      dataIndex: 'phone'
+      dataIndex: 'phone',
     },
     {
       title: 'gender',
-      dataIndex: 'gender'
+      dataIndex: 'gender',
     },
     {
       width: 350,
@@ -66,16 +66,16 @@ function Nav1(props) {
       render: (text, record, index) => {
         return (
           <div>
-            <Button onClick={() => handleEdit(record)} type="primary">
+            <Button onClick={() => handleEdit(record)} type='primary'>
               编辑
             </Button>
-            <Button onClick={() => handleDelete(record)} type="danger">
+            <Button onClick={() => handleDelete(record)} type='danger'>
               删除
             </Button>
           </div>
         )
-      }
-    }
+      },
+    },
   ]
   const [currentFormKey, setcurrentFormKey] = useState('')
   const formRef = createRef()
@@ -101,7 +101,7 @@ function Nav1(props) {
       },
       onCancel() {
         console.log('Cancel')
-      }
+      },
     })
   }
   const handletoAddService = () => {}
@@ -116,14 +116,14 @@ function Nav1(props) {
         console.log(values)
         if (modalTitleName === '新增') {
           const queryParams = {
-            ...values
+            ...values,
           }
           handletoAddService(queryParams)
           return
         }
         if (modalTitleName === '编辑') {
           const queryParams = {
-            ...values
+            ...values,
           }
           handletoEditService(queryParams)
           return
@@ -160,35 +160,35 @@ function Nav1(props) {
         style={{
           marginBottom: 16,
           display: 'flex',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
         }}
       >
         <div>
           <Button
             onClick={handleAdd}
-            type="primary"
+            type='primary'
             style={{ marginRight: '20px' }}
           >
             新增
           </Button>
-          <Button type="danger">批量删除</Button>
+          <Button type='danger'>批量删除</Button>
         </div>
         <div>
-          <Form layout="inline" form={form}>
-            <Form.Item name="gender">
+          <Form layout='inline' form={form}>
+            <Form.Item name='gender'>
               <Select
-                placeholder="请选择"
+                placeholder='请选择'
                 style={{ width: 120, marginRight: 16 }}
                 onChange={submit}
               >
-                <Option value="">all</Option>
-                <Option value="male">male</Option>
-                <Option value="female">female</Option>
+                <Option value=''>all</Option>
+                <Option value='male'>male</Option>
+                <Option value='female'>female</Option>
               </Select>
             </Form.Item>
-            <Form.Item name="name">
+            <Form.Item name='name'>
               <Input.Search
-                placeholder="enter name"
+                placeholder='enter name'
                 style={{ width: 240 }}
                 onSearch={submit}
               />
@@ -202,7 +202,7 @@ function Nav1(props) {
   return (
     <div>
       {rendersearchFrom()}
-      <Table columns={columns} rowKey="email" {...tableProps} />
+      <Table columns={columns} rowKey='email' {...tableProps} />
       {renderModal()}
     </div>
   )

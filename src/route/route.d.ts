@@ -1,8 +1,8 @@
 interface RouteCellObj {
   name: string
   path: string
-  role: string
-  icon: string
+  role?: string
+  icon?: string
   component?: any
   redirect?: string
   hidden?: boolean

@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { Result, Button } from 'antd'
 import { withRouter, useHistory } from 'react-router-dom'
 
-const NoMatch: FC = (props) => {
+const NoMatch: FC = () => {
   const { replace } = useHistory()
 
   const handleClick = () => {

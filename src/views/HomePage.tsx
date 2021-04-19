@@ -1,5 +1,5 @@
 import React, { FC, Fragment } from 'react'
-import MyLayOut from './layOut/LayOut'
+import MyLayOut from '@/layOut/LayOut'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 
 import NoMatch from '@/components/NoMatch'

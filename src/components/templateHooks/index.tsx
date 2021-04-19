@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react'
 import { Button, Table, Modal, message } from 'antd'
-import { useFormTable } from '@umijs/hooks'
 import MainForm from './MainForm'
 import useModal from '@/components/hooks/useModal'
-import { PaginatedParams } from '@umijs/hooks/lib/useFormTable'
+import { useAntdTable } from 'ahooks'
+import { PaginatedParams } from 'ahooks/lib/useAntdTable'
 import SearchBar from './SearchBar'
 import {
   getProductCategorys as apiTableData,
@@ -36,7 +36,7 @@ function MainComp() {
   const mainFormRef = useRef(null)
   const searchFormRef = useRef(null)
 
-  const { tableProps, search, refresh: refreshTable } = useFormTable(
+  const { tableProps, search, refresh: refreshTable } = useAntdTable(
     getTableData,
     {
       defaultPageSize: 10,

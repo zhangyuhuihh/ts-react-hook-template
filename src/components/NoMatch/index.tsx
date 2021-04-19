@@ -1,28 +1,26 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Result, Button } from 'antd'
-import { useHistory } from 'react-router-dom'
+import { withRouter, useHistory } from 'react-router-dom'
 
-const NoMatch: React.FC = (): JSX.Element => {
+const NoMatch: FC = () => {
   const { replace } = useHistory()
 
   const handleClick = () => {
-    replace('/')
+    replace('/Dashboard')
   }
 
   return (
-    <div className='spin-main'>
-      <Result
-        status='404'
-        title='404'
-        subTitle='Sorry, the page you visited does not exist.'
-        extra={
-          <Button type='primary' onClick={handleClick}>
-            Back Home
-          </Button>
-        }
-      />
-    </div>
+    <Result
+      status='404'
+      title='404'
+      subTitle='对不起，您访问的页面不存在！~'
+      extra={
+        <Button onClick={handleClick} type='primary'>
+          返回首页
+        </Button>
+      }
+    />
   )
 }
 
-export default NoMatch
+export default withRouter(NoMatch)
